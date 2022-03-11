@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
+
+<suite name="sample">
+	<test name="sample">
+		<classes>
+			<class name="Utility.UiUtility">
+				<method>
+					<parameter name="initializeDriver" value="Android" />
+					<parameter name="noReset" value="false" />
+					<parameter name="browserName" value="" />
+					<parameter name="quitDriver" value="Android" />
+					<include name="InitializeDriver" />
+				</method>
+			</class>
+		</classes>
+	</test>
+</suite>

@@ -3,7 +3,6 @@ package WebDriverFactory;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.concurrent.TimeUnit;
 
 import org.openqa.selenium.Platform;
 import org.openqa.selenium.WebDriver;
@@ -13,6 +12,7 @@ import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.RemoteWebDriver;
 
 import Utility.ConfigUtility;
+import Utility.WaitUtility;
 import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.remote.AndroidMobileCapabilityType;
 import io.appium.java_client.remote.AutomationName;
@@ -35,7 +35,7 @@ public class webDriverFactory {
 
 	}
 
-	public static void setMobileWebDriver(String browserName) throws IOException {
+	public static void setMobileWebDriver(String browserName) throws IOException, InterruptedException {
 		DesiredCapabilities capabilities = new DesiredCapabilities();
 		switch (browserName.toLowerCase()) {
 		case "android-chrome":
@@ -49,7 +49,7 @@ public class webDriverFactory {
 			threadLocal.set(new AppiumDriver<>(new URL(
 					ConfigUtility.getConfigProperty("/com.qa.Project_commons/TestData/config.properties", "appiumURL")),
 					capabilities));
-			threadLocal.get().manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+			WaitUtility.FixWait(10);
 			break;
 
 		case "ios-safari":
@@ -62,14 +62,14 @@ public class webDriverFactory {
 			threadLocal.set(new AppiumDriver<>(new URL(
 					ConfigUtility.getConfigProperty("/com.qa.Project_commons/TestData/config.properties", "appiumURL")),
 					capabilities));
-			threadLocal.get().manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+			WaitUtility.FixWait(10);
 			break;
 
 		}
 
 	}
 
-	public static void setDesktopWebDriver() throws MalformedURLException, IOException {
+	public static void setDesktopWebDriver() throws MalformedURLException, IOException, InterruptedException {
 		ChromeOptions chromeOptions = new ChromeOptions();
 		DesiredCapabilities chromeCapability = new DesiredCapabilities();
 		chromeOptions.addArguments("--disable-extensions");
@@ -99,13 +99,13 @@ public class webDriverFactory {
 
 		}
 		threadLocal.get().manage().window().maximize();
-		threadLocal.get().manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
+		WaitUtility.FixWait(10);
 		threadLocal.get().get("https://saucedemo.com/");
 		
 
 	}
 
-	public static void setAndroidDriver(Boolean noReset) throws IOException {
+	public static void setAndroidDriver(Boolean noReset) throws IOException, InterruptedException {
 		String appPackage = "com.swaglabsmobileapp";
 		String appActivity = "com.swaglabsmobileapp.MainActivity";
 		DesiredCapabilities capability = new DesiredCapabilities();
@@ -127,11 +127,10 @@ public class webDriverFactory {
 		threadLocal.set(new AppiumDriver<>(new URL(
 				ConfigUtility.getConfigProperty("/com.qa.Project_commons/TestData/config.properties", "appiumURL")),
 				capability));
-		threadLocal.get().manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
-
+		WaitUtility.FixWait(10);
 	}
 
-	public static void setIOSDriver(Boolean noReset) throws IOException {
+	public static void setIOSDriver(Boolean noReset) throws IOException, InterruptedException {
 		DesiredCapabilities iosCapabilities = new DesiredCapabilities();
 		iosCapabilities.setCapability(MobileCapabilityType.AUTOMATION_NAME, AutomationName.IOS_XCUI_TEST);
 		iosCapabilities.setCapability(MobileCapabilityType.PLATFORM_NAME, Platform.IOS);
@@ -150,6 +149,7 @@ public class webDriverFactory {
 		threadLocal.set(new AppiumDriver<>(new URL(
 				ConfigUtility.getConfigProperty("/com.qa.Project_commons/TestData/config.properties", "appiumURL")),
 				iosCapabilities));
+		WaitUtility.FixWait(10);
 
 	}
 
